@@ -745,12 +745,6 @@ bool UI_ToggleButton(const char *text, bool *state, Widget **w_out = NULL) {
         w->col_text = ColorBlack();
         w->col_border = ColorBlack();
     }
-    else if (w->hot) {
-        w->sz_border = 3;
-        w->col_bckgrnd = ColorWhite();
-        w->col_text = ColorBlack();
-        w->col_border = ColorBlack();
-    }
     else {
         w->sz_border = 1;
         w->col_bckgrnd = COLOR_WHITE;
@@ -767,7 +761,7 @@ bool UI_ToggleButton(const char *text, bool *state, Widget **w_out = NULL) {
 }
 
 
-bool UI_ToggleButton2(const char *text, bool *state, Widget **w_out = NULL) {
+bool UI_ToggleTabButton(const char *text, bool *state, Widget **w_out = NULL) {
     Widget *w  = WidgetGetCached(text);
     w->features_flg |= WF_DRAW_TEXT;
     w->features_flg |= WF_DRAW_BACKGROUND_AND_BORDER;
@@ -786,10 +780,6 @@ bool UI_ToggleButton2(const char *text, bool *state, Widget **w_out = NULL) {
     if (*state == true) {
         w->sz_border = 1;
         w->col_bckgrnd = COLOR_WHITE;
-    }
-    else if (w->hot) {
-        w->sz_border = 1;
-        w->col_bckgrnd = COLOR_GRAY_75;
     }
     else {
         w->sz_border = 1;
