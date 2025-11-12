@@ -509,8 +509,9 @@ List<Widget*> WidgetTreePositioning(MArena *a_tmp, Widget *w_root) {
 
             if (ch->features_flg & WF_CAN_COLLIDE) {
                 if (ch->rect.DidCollide( (s32) g_mouse_x, (s32) g_mouse_y )) {
+                    ch->hot = true;
+
                     if (g_w_active == NULL) {
-                        ch->hot = true;
                         if (g_mouse_down) {
                             // enable active mode
                             g_w_active = ch;
@@ -670,7 +671,7 @@ Widget *WidgetGetCached(const char *text, bool *was_new = NULL) {
     }
     else {
         assert(key == w->hash_key);
-        assert(w->frame_touched != *g_frameno_imui);
+        assert(w->frame_touched != *g_frameno_imui && "getting the same widget twice");
         if (was_new) *was_new = false;
     }
 
