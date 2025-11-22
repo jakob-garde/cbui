@@ -249,6 +249,7 @@ static f32 g_mouse_x;
 static f32 g_mouse_y;
 static bool g_mouse_down;
 static bool g_mouse_pushed;
+static bool g_mouse_coolided_last_frame;
 
 
 void UI_Init(u32 width, u32 height, u64 *frameno) {
@@ -403,7 +404,7 @@ void WidgetTreeExpanders_Rec(Widget *w) {
 }
 
 
-List<Widget*> WidgetTreePositioning(MArena *a_tmp, Widget *w_root) {
+List<Widget*> WidgetTreePositioningAndMouseInteraction(MArena *a_tmp, Widget *w_root) {
     List<Widget*> all_widgets = InitList<Widget*>(a_tmp, 0);
     Widget *w = w_root;
 
@@ -507,6 +508,12 @@ List<Widget*> WidgetTreePositioning(MArena *a_tmp, Widget *w_root) {
             ch->hot = false;
             ch->clicked = false;
 
+            if (ch->features_flg & WF_CAN_COLLIDE || ch->features_flg & WF_DRAW_BACKGROUND_AND_BORDER) {
+                if (ch->rect.DidCollide( (s32) g_mouse_x, (s32) g_mouse_y )) {
+                    g_mouse_coolided_last_frame = true;
+                }
+            }
+
             if (ch->features_flg & WF_CAN_COLLIDE) {
                 if (ch->rect.DidCollide( (s32) g_mouse_x, (s32) g_mouse_y )) {
                     ch->hot = true;
@@ -598,6 +605,7 @@ void UI_FrameEnd(MArena *a_tmp, s32 width, s32 height, f32 mouse_x, f32 mouse_y,
     g_mouse_y = mouse_y;
     g_mouse_down = mouse_down;
     g_mouse_pushed = mouse_pushed;
+    g_mouse_coolided_last_frame = false;
 
     if (g_mouse_down == false) {
         g_w_active = NULL;
@@ -624,7 +632,7 @@ void UI_FrameEnd(MArena *a_tmp, s32 width, s32 height, f32 mouse_x, f32 mouse_y,
     // TODO: merge positioning and render passes:
 
     // position pass
-    List<Widget*> all_widgets = WidgetTreePositioning(a_tmp, w);
+    List<Widget*> all_widgets = WidgetTreePositioningAndMouseInteraction(a_tmp, w);
     // render pass
     WidgetTreeRenderToDrawcalls(all_widgets);
 
