@@ -283,7 +283,7 @@ void TestUIButtons() {
 
 
         if (GetSpace()) {
-            printf("her\n");
+            printf("space\n");
         }
 
 
@@ -299,6 +299,8 @@ void TestUIButtons() {
         if (GetFKey(3)) {
             UI_DebugNames(!g_ui_debugnames);
         }
+
+        CbuiFrameEnd();
     }
     CbuiExit();
 }
