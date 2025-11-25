@@ -995,5 +995,9 @@ void UI_Pop() {
     WidgetTreePop();
 }
 
+bool UI_DidCollide() {
+    return g_mouse_coolided_last_frame;
+}
+
 
 #endif
