@@ -999,5 +999,11 @@ bool UI_DidCollide() {
     return g_mouse_coolided_last_frame;
 }
 
+void (UI_SetCurrentLayout(Widget *w)) {
+    // TODO: we should have a check here
+
+    g_w_layout = w;
+}
+
 
 #endif

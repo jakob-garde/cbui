@@ -61,6 +61,11 @@ struct OrbitCamera {
         phi_loc = phi_loc_new;
     }
 
+    Vector3f Position() {
+        Vector3f position = TransformGetTranslation(view);
+        return position;
+    }
+
     Vector3f Center() {
         Vector3f position = TransformGetTranslation(view);
         Vector3f cam_forward_w = TransformDirection(view, z_hat);
