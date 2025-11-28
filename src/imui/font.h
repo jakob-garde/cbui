@@ -314,10 +314,10 @@ void TextPositionLine(Str txt, s32 box_l, s32 box_t, s32 box_w, s32 box_h, s32 a
     if (align_vert == 0) { // alight vertical center
         txt_y = box_y;
     }
-    else if (align_vert > 0) { // alight vertical left
-        txt_y = box_l + *txt_w / 2;
+    else if (align_vert > 0) { // alight vertical top
+        txt_y = box_t + *txt_h / 2;
     }
-    else if (align_vert < 0) { // alight vertical right
+    else if (align_vert < 0) { // alight vertical bottom
         s32 box_b = box_t + box_h;
         txt_y = box_b - *txt_h / 2;
     }
@@ -330,13 +330,13 @@ void TextPositionLine(Str txt, s32 box_l, s32 box_t, s32 box_w, s32 box_h, s32 a
 // TODO: use floats to position characters
 
 
-void TextPlot(Str txt, s32 box_l, s32 box_t, s32 box_w, s32 box_h, s32 *sz_x, s32 *sz_y, Color color) {
+void TextPlot(Str txt, s32 box_l, s32 box_t, s32 box_w, s32 box_h, s32 *sz_x, s32 *sz_y, Color color, s32 align_h = 0, s32 align_v = 0) {
     assert(g_current_font != NULL && "init text plotters first");
     FontAtlas *plt = g_current_font;
 
     s32 txt_l;
     s32 txt_t;
-    TextPositionLine(txt, box_l, box_t, box_w, box_h, 0, 0, &txt_l, &txt_t, sz_x, sz_y);
+    TextPositionLine(txt, box_l, box_t, box_w, box_h, align_h, align_v, &txt_l, &txt_t, sz_x, sz_y);
 
     // position the quads
     s32 pt_x = txt_l;

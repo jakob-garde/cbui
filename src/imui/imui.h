@@ -698,7 +698,7 @@ Widget *WidgetGetNew(const char *text = NULL) {
     return w;
 }
 
-bool UI_Button(const char *text, Widget **w_out = NULL) {
+bool UI_Button(const char *text, Widget **w_out = NULL, bool deactivated = false) {
     Widget *w  = WidgetGetCached(text);
     w->features_flg |= WF_DRAW_TEXT;
     w->features_flg |= WF_DRAW_BACKGROUND_AND_BORDER;
@@ -707,25 +707,33 @@ bool UI_Button(const char *text, Widget **w_out = NULL) {
     w->h = 50;
     w->sz_font = FS_24;
 
-    if (w->active) {
-        w->sz_border = 3;
-        w->col_bckgrnd = COLOR_GRAY_75;
-        w->col_text = COLOR_BLACK;
-        w->col_border = COLOR_BLACK;
-    }
-    else if (w->hot) {
-        w->sz_border = 3;
-        w->col_bckgrnd = COLOR_WHITE;
-        w->col_text = COLOR_BLACK;
-        w->col_border = COLOR_BLACK;
-    }
-    else {
+    if (deactivated) {
         w->sz_border = 1;
         w->col_bckgrnd = COLOR_WHITE;
-        w->col_text = COLOR_BLACK;
+        w->col_text = COLOR_GRAY;
         w->col_border = COLOR_BLACK;
     }
-
+   else {
+        if (w->active) {
+            w->sz_border = 3;
+            w->col_bckgrnd = COLOR_GRAY_75;
+            w->col_text = COLOR_BLACK;
+            w->col_border = COLOR_BLACK;
+        }
+        else if (w->hot) {
+            w->sz_border = 3;
+            w->col_bckgrnd = COLOR_WHITE;
+            w->col_text = COLOR_BLACK;
+            w->col_border = COLOR_BLACK;
+        }
+        else {
+            w->sz_border = 1;
+            w->col_bckgrnd = COLOR_WHITE;
+            w->col_text = COLOR_BLACK;
+            w->col_border = COLOR_BLACK;
+        }
+    }
+ 
     WidgetTreeSibling(w);
 
     if (w_out != NULL) {
