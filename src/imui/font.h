@@ -376,4 +376,52 @@ void TextPlot(Str txt, s32 box_l, s32 box_t, s32 box_w, s32 box_h, s32 *sz_x, s3
 }
 
 
+Array<Sprite> TextPlot(MArena *a_dest, Str txt, s32 box_l, s32 box_t, s32 box_w, s32 box_h, s32 *sz_x, s32 *sz_y, Color color, s32 align_h = 0, s32 align_v = 0) {
+    assert(g_current_font != NULL && "init text plotters first");
+    FontAtlas *plt = g_current_font;
+
+    s32 txt_l;
+    s32 txt_t;
+    TextPositionLine(txt, box_l, box_t, box_w, box_h, align_h, align_v, &txt_l, &txt_t, sz_x, sz_y);
+    Array<Sprite> sprites = InitArray<Sprite>(a_dest, txt.len);
+
+    // position the quads
+    s32 pt_x = txt_l;
+    s32 pt_y = txt_t + plt->GetLineBaseOffset();
+    s32 w_space = plt->advance_x.lst[' '];
+    u64 plt_key = plt->hash;
+
+    for (u32 i = 0; i < txt.len; ++i) {
+        char c = txt.str[i];
+
+        if (c == ' ') {
+            pt_x += w_space;
+            continue;
+        }
+        if (IsAscii(c) == false) {
+            continue;
+        }
+
+        Sprite glyph = plt->glyphs_mem[c];
+
+        Frame f = {};
+        f.w = glyph.w;
+        f.h = glyph.h;
+        f.u0 = glyph.u0;
+        f.u1 = glyph.u1;
+        f.v0 = glyph.v0;
+        f.v1 = glyph.v1;
+        f.x0 = glyph.x0 + pt_x;
+        f.y0 = glyph.y0 + pt_y;
+
+        f.color = color;
+        f.tex_id = plt_key;
+
+        pt_x += plt->advance_x.lst[c];
+        sprites.Add(f);
+    }
+
+    return sprites;
+}
+
 #endif
