@@ -192,4 +192,40 @@ Frame GetAnimationFrame(HashMap *map, Str sheet_name, s32 animation_idx, s32 fra
 typedef Frame Sprite;
 
 
+Sprite SpriteTexture_32it(MArena *a_dest, const char* name, s32 w, s32 h, f32 x0, f32 y0, HashMap *map_textures, Color **buffer_out) {
+    assert(buffer_out);
+
+    // 1) pushes an inlined Texture struct and a buffer to a_dest
+    // 2) returns a sprite that connects to this buffer
+    // 3) The sprite can be pushed to a list for defered blitting on top of the UI elements
+
+    u64 key = HashStringValue(name);
+
+    Texture *tex = (Texture*) ArenaPush(a_dest, &tex, sizeof(Texture));
+    tex->tpe = TT_RGBA;
+    tex->width = w;
+    tex->height = h;
+    tex->px_sz = 1;
+    tex->data = (u8*) ArenaAlloc(a_dest, w * h * sizeof(Color));
+    *buffer_out = (Color*) tex->data;
+
+    memset(*buffer_out, 255, w*h*sizeof(Color));
+
+    Sprite s = {};
+    s.color = COLOR_RED;
+    s.w = w;
+    s.h = h;
+    s.u0 = 0;
+    s.u1 = 1;
+    s.v0 = 0;
+    s.v1 = 1;
+    s.x0 = x0;
+    s.y0 = y0;
+    s.tex_id = key;    
+    MapPut(map_textures, key, tex);
+
+    return s;
+}
+
+
 #endif
