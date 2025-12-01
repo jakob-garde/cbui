@@ -93,7 +93,13 @@ Color ColorMapGet(f32 value, u8 colormap_paletted[64][4]) {
 
     s32 idx_interp = round(value * (64 - 1));
 
-    assert(idx_interp >= 0 && idx_interp <= 63);
+    if (idx_interp < 0) {
+        idx_interp = 0;
+    }
+    else if (idx_interp > 63) {
+        idx_interp = 63;
+    }
+
     Color *color = (Color*) &colormap_paletted[idx_interp];
 
     return *color;
