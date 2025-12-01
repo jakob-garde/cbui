@@ -93,6 +93,14 @@ struct CollRect {
         bool by = (y >= y0 && y <= y1);
         return bx && by;
     }
+    s32 Width() {
+        f32 width = x1 - x0;
+        return (s32) floor(width);
+    }
+    s32 Height() {
+        f32 height = y1 - y0;
+        return (s32) floor(height);
+    }
 };
 
 

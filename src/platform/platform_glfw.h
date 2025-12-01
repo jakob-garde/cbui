@@ -297,7 +297,14 @@ void MouseButtonCallBack(GLFWwindow* window, int button, int action, int mods) {
         btn->t_pushed_prev = btn->t_pushed;
         btn->t_pushed = ReadSystemTimerMySec();
         u64 t_since_last_mdown = btn->t_pushed - btn->t_pushed_prev;
-        assert(btn->t_pushed_prev == 0 || (btn->t_pushed_prev < btn->t_pushed));
+
+        if (btn->t_pushed_prev != 0 && (btn->t_pushed_prev < btn->t_pushed)) {
+            //  TODO: use steady_clock
+            //  In the event of a time skip (this used to be an assert)
+
+            btn->t_pushed_prev = btn->t_pushed;
+            return;
+        }
 
         if (btn->t_pushed_prev && (t_since_last_mdown < T_DBLCLICK_TIMEOUT_MYS)) {
             btn->dblclicked = true;
