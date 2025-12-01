@@ -7,32 +7,62 @@
 //
 
 
-void PanelPlot(f32 l, f32 t, f32 w, f32 h, f32 thic_border, Color col_border = { RGBA_GRAY_75 }, Color col_pnl = { RGBA_WHITE } )
+void PanelPlot(f32 l, f32 t, f32 w, f32 h, f32 sz_border, Color col_border = { RGBA_GRAY_75 }, Color col_pnl = { RGBA_WHITE } )
 {
-    if (thic_border >= w / 2 || thic_border >= w / 2) {
+    if (sz_border >= w / 2 || sz_border >= w / 2) {
         return;
     }
 
-    Frame border = {};
-    border.w = w;
-    border.h = h;
-    border.x0 = l;
-    border.y0 = t;
-    border.color = col_border;
+    if (col_pnl.a > 0) {
+        // push the background
+        Frame background = {};
+        background.w = w - 2*sz_border;
+        background.h = h - 2*sz_border;
+        background.x0 = l + sz_border;
+        background.y0 = t + sz_border;
+        background.color = col_pnl;
 
-    // TODO: make a proper border with a hole in the middle, we need panel opacity !
-    if (thic_border > 0.0f) {
+        SpriteBufferPush(background);
+    }
+
+    if (sz_border > 0.0f) {
+        // left side
+        Frame border = {};
+        border.w = sz_border;
+        border.h = h;
+        border.x0 = l;
+        border.y0 = t;
+        border.color = col_border;
+        SpriteBufferPush(border);
+
+        // right side
+        border = {};
+        border.w = sz_border;
+        border.h = h;
+        border.x0 = l + w - sz_border;
+        border.y0 = t;
+        border.color = col_border;
+        SpriteBufferPush(border);
+
+        // top side
+        border = {};
+        border.w = w;
+        border.h = sz_border;
+        border.x0 = l;
+        border.y0 = t;
+        border.color = col_border;
+        SpriteBufferPush(border);
+
+        // top side
+        border = {};
+        border.w = w;
+        border.h = sz_border;
+        border.x0 = l;
+        border.y0 = t + h - sz_border;
+        border.color = col_border;
         SpriteBufferPush(border);
     }
 
-    Frame background = {};
-    background.w = w - 2*thic_border;
-    background.h = h - 2*thic_border;
-    background.x0 = l + thic_border;
-    background.y0 = t + thic_border;
-    background.color = col_pnl;
-
-    SpriteBufferPush(background);
 }
 
 
@@ -285,7 +315,6 @@ void UI_Init(u32 width, u32 height, u64 *frameno) {
     SetDefaultFontSize(FS_24);
 }
 
-
 void WidgetTreeSizeWrap_Rec(Widget *w, f32 *w_sum, f32 *h_sum, f32 *w_max, f32 *h_max) {
     // Recursively determines widget sizes by wrapping in child widgets. 
     // Sizes will be the minimal, and expander sizes will be expanded elsewhere.
@@ -367,7 +396,6 @@ void WidgetTreeSizeWrap_Rec(Widget *w, f32 *w_sum, f32 *h_sum, f32 *w_max, f32 *
     w->h_child_max = *h_max;
 }
 
-
 void WidgetTreeExpanders_Rec(Widget *w) {
     Widget *ch = w->first;
     if (ch == NULL) {
@@ -402,7 +430,6 @@ void WidgetTreeExpanders_Rec(Widget *w) {
         ch = ch->next;
     }
 }
-
 
 List<Widget*> WidgetTreePositioningAndMouseInteraction(MArena *a_tmp, Widget *w_root) {
     List<Widget*> all_widgets = InitList<Widget*>(a_tmp, 0);
@@ -742,7 +769,6 @@ bool UI_Button(const char *text, Widget **w_out = NULL, bool deactivated = false
     return w->clicked;
 }
 
-
 bool UI_ToggleButton(const char *text, bool *state, Widget **w_out = NULL) {
     Widget *w  = WidgetGetCached(text);
     w->features_flg |= WF_DRAW_TEXT;
@@ -777,7 +803,6 @@ bool UI_ToggleButton(const char *text, bool *state, Widget **w_out = NULL) {
     return w->clicked;
 }
 
-
 bool UI_ToggleTabButton(const char *text, bool *state, Widget **w_out = NULL) {
     Widget *w  = WidgetGetCached(text);
     w->features_flg |= WF_DRAW_TEXT;
@@ -811,7 +836,6 @@ bool UI_ToggleTabButton(const char *text, bool *state, Widget **w_out = NULL) {
     return w->clicked;
 }
 
-
 Widget *UI_CoolPanel(s32 width, s32 height, bool center_h = true) {
     Widget *w = WidgetGetNew();
     w->features_flg |= WF_DRAW_BACKGROUND_AND_BORDER;
@@ -829,7 +853,6 @@ Widget *UI_CoolPanel(s32 width, s32 height, bool center_h = true) {
 
     return w;
 }
-
 
 bool UI_CrossButton(const char *symbol, Widget **w_out = NULL) {
     Widget *x = WidgetGetCached(symbol);
@@ -856,7 +879,6 @@ bool UI_CrossButton(const char *symbol, Widget **w_out = NULL) {
 
     return x->clicked;
 }
-
 
 Widget *UI_CoolPopUp(s32 width, s32 height, s32 padding = 20, bool *close = NULL) {
     Widget *w = WidgetGetNew();

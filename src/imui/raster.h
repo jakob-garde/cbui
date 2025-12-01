@@ -385,27 +385,21 @@ void SpriteBufferPush(Sprite sprite) {
 void SpriteBufferBlitAndClear(HashMap map_textures, s32 dest_width, s32 dest_height, u8 *dest_buffer) {
 
     for (s32 i = 0; i < g_sprite_buffer.len; ++i) {
-
         Sprite s = g_sprite_buffer.arr[i];
         Texture *s_texture = (Texture*) MapGet(&map_textures, s.tex_id);
 
         if (s_texture == NULL) {
-
             BlitFill(s.w, s.h, s.x0, s.y0, s.color, dest_width, dest_height, (Color*) dest_buffer);
         }
-
         else if (s_texture && s_texture->tpe == TT_8BIT ) {
-
             Blit8Bit(s.w, s.h, s.x0, s.y0, s.u0, s.v0, s.u1, s.v1, s.color, s_texture->width, s_texture->height, s_texture->data, dest_width, dest_height, (Color*) dest_buffer);
         }
-
         else if (s_texture && s_texture->tpe == TT_RGBA) {
-
             Blit32Bit(s.w, s.h, s.x0, s.y0, s.u0, s.u1, s.v0, s.v1, s_texture->width, s_texture->height, (Color*) s_texture->data, dest_width, dest_height, (Color*) dest_buffer);
         }
 
         else {
-            printf("WARN: Attempt to blit unknown texture type\n");
+            assert("WARN: Attempt to blit unknown texture type\n");
         }
     }
 
@@ -420,17 +414,15 @@ void SpriteArrayBlit(Array<Sprite> sprites, HashMap map_textures, s32 dest_width
         if (s_texture == NULL) {
             BlitFill(s.w, s.h, s.x0, s.y0, s.color, dest_width, dest_height, dest_buffer);
         }
-
         else if (s_texture && s_texture->tpe == TT_8BIT ) {
             Blit8Bit(s.w, s.h, s.x0, s.y0, s.u0, s.v0, s.u1, s.v1, s.color, s_texture->width, s_texture->height, s_texture->data, dest_width, dest_height, dest_buffer);
         }
-
         else if (s_texture && s_texture->tpe == TT_RGBA) {
             Blit32Bit(s.w, s.h, s.x0, s.y0, s.u0, s.u1, s.v0, s.v1, s_texture->width, s_texture->height, (Color*) s_texture->data, dest_width, dest_height, dest_buffer);
         }
 
         else {
-            printf("WARN: Attempt to blit unknown texture type\n");
+            assert("WARN: Attempt to blit unknown texture type\n");
         }
     }
 }

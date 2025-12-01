@@ -228,4 +228,13 @@ Sprite SpriteTexture_32it(MArena *a_dest, const char* name, s32 w, s32 h, f32 x0
 }
 
 
+void SpriteTextureFill(Sprite stex, Color *buffer, Color fill) {
+    for (s32 j = 0; j < stex.h; j++) {
+        for (s32 i = 0; i < stex.w; i++) {
+            buffer[ stex.w * j + i ] = fill;
+        }
+    }
+}
+
+
 #endif
