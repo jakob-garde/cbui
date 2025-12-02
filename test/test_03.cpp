@@ -17,7 +17,8 @@ void TestUILayoutFeatures() {
     s32 TB_mode = 10;
 
     f32 time = 0;
-    UI_SetFontSize(FS_24);
+    //UI_SetFontSize(FS_18);
+    UI_SetFontSize(FS_10);
     UI_DebugMode(true);
     UI_DebugNames(true);
 
@@ -530,8 +531,8 @@ void TestColormaps() {
 
 void Test_03() {
 
-    //TestUILayoutFeatures();
-    TestUIButtons();
+    TestUILayoutFeatures();
+    //TestUIButtons();
     //TestSceneGraph();
     //TestRotParentIsDifferent();
     //TestColormaps();

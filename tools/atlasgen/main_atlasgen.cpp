@@ -1,7 +1,7 @@
 #include <math.h>
 #include <assert.h>
 
-#include "../../../baselayer/src/baselayer.h"
+#include "../../../baselayer/baselayer_includes.h"
 //#include "../../lib/jg_baselayer.h"
 #include "../../cbui_includes.h"
 
@@ -114,16 +114,18 @@ FontAtlas CreateCharAtlas(MArena *a_dest, u8 *font, s32 line_height) {
 
     stbi_write_png("fontatlas.png", atlas.texture.width, atlas.texture.height, atlas.texture.px_sz, atlas.texture.data, atlas.texture.width);
     printf("\n");
-    printf("wrote atlas image to atlas.png\n");
+    printf("wrote atlas image to fontatlas.png\n");
     atlas.Print();
 
     return atlas;
 }
 
 
+#define NUM_FONT_SIZES 10 
 void CompileFontAndPushToStream(MArena *a_tmp, MArena *a_stream, ResourceStreamHandle *stream, Str font_name, u8* font_data) {
-    s32 line_sizes[8] = { 18, 24, 30, 36, 48, 60, 72, 84 };
-    for (u32 i = 0; i < 8; ++i) {
+
+    s32 line_sizes[NUM_FONT_SIZES] = { 10, 14, 18, 24, 30, 36, 48, 60, 72, 84 };
+    for (u32 i = 0; i < NUM_FONT_SIZES; ++i) {
         s32 sz_px = line_sizes[i];
 
         FontAtlas atlas = CreateCharAtlas(a_tmp, font_data, sz_px);
