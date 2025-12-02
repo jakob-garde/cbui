@@ -1,5 +1,5 @@
 
-#include "../baselayer/baselayer_includes.h"
+#include "lib/jg_baselayer.h"
 #include "cbui_includes.h"
 
 #include "test/test_03.cpp"
@@ -25,33 +25,29 @@ int main (int argc, char **argv) {
         StrInit();
 
         StrLst *f_sources = NULL;
-        f_sources = StrLstPush("../src/cbui.h", f_sources);
-        f_sources = StrLstPush("../src/geometry/gtypes.h", f_sources);
-        f_sources = StrLstPush("../src/geometry/geometry.h", f_sources);
-        f_sources = StrLstPush("../src/geometry/camera.h", f_sources);
-        f_sources = StrLstPush("../src/geometry/scenegraph.h", f_sources);
+        f_sources = StrLstPush("src/geometry/gtypes.h", f_sources);
+        f_sources = StrLstPush("src/geometry/geometry.h", f_sources);
+        f_sources = StrLstPush("src/geometry/camera.h", f_sources);
+        f_sources = StrLstPush("src/geometry/scenegraph.h", f_sources);
 
-        f_sources = StrLstPush("../src/cbui.h", f_sources);
+        f_sources = StrLstPush("src/cbui.h", f_sources);
 
-        f_sources = StrLstPush("../src/imui/color.h", f_sources);
-        f_sources = StrLstPush("../src/imui/sprite.h", f_sources);
-        f_sources = StrLstPush("../src/imui/raster.h", f_sources);
-        f_sources = StrLstPush("../src/imui/wireframe.h", f_sources);
-        f_sources = StrLstPush("../src/imui/quad.h", f_sources);
-        f_sources = StrLstPush("../src/imui/resource.h", f_sources);
-        f_sources = StrLstPush("../src/imui/font.h", f_sources);
-        f_sources = StrLstPush("../src/imui/imui.h", f_sources);
+        f_sources = StrLstPush("src/imui/color.h", f_sources);
+        f_sources = StrLstPush("src/imui/sprite.h", f_sources);
+        f_sources = StrLstPush("src/imui/raster.h", f_sources);
+        f_sources = StrLstPush("src/imui/wireframe.h", f_sources);
+        f_sources = StrLstPush("src/imui/quad.h", f_sources);
+        f_sources = StrLstPush("src/imui/resource.h", f_sources);
+        f_sources = StrLstPush("src/imui/font.h", f_sources);
+        f_sources = StrLstPush("src/imui/imui.h", f_sources);
 
-        f_sources = StrLstPush("../src/platform/platform_glfw.h", f_sources);
-        f_sources = StrLstPush("../src/init.h", f_sources);
-
-        //f_sources = StrLstPush("../indices.h", f_sources);
-        //f_sources = StrLstPush("../octree.h", f_sources);
+        f_sources = StrLstPush("src/platform/platform_glfw.h", f_sources);
+        f_sources = StrLstPush("src/init.h", f_sources);
         f_sources = f_sources->first;
 
         StrBuff buff = StrBuffInit();
         StrBuffPrint1K(&buff, "/*\n", 0);
-        StrBuffAppend(&buff, LoadTextFile(a_files, "../LICENSE"));
+        StrBuffAppend(&buff, LoadTextFile(a_files, "LICENSE"));
         StrBuffPrint1K(&buff, "*/\n\n\n", 0);
         StrBuffPrint1K(&buff, "#ifndef __JG_CBUI_H__\n", 0);
         StrBuffPrint1K(&buff, "#define __JG_CBUI_H__\n\n\n", 0);
