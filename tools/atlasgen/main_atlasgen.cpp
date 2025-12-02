@@ -121,10 +121,10 @@ FontAtlas CreateCharAtlas(MArena *a_dest, u8 *font, s32 line_height) {
 }
 
 
-#define NUM_FONT_SIZES 10 
+#define NUM_FONT_SIZES 12
 void CompileFontAndPushToStream(MArena *a_tmp, MArena *a_stream, ResourceStreamHandle *stream, Str font_name, u8* font_data) {
 
-    s32 line_sizes[NUM_FONT_SIZES] = { 10, 14, 18, 24, 30, 36, 48, 60, 72, 84 };
+    s32 line_sizes[NUM_FONT_SIZES] = { 10, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 84 };
     for (u32 i = 0; i < NUM_FONT_SIZES; ++i) {
         s32 sz_px = line_sizes[i];
 

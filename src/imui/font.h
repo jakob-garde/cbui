@@ -105,7 +105,9 @@ void GlyphPlotterPrint(FontAtlas *plt) {
 
 enum FontSize {
     FS_10,
+    FS_12,
     FS_14,
+    FS_16,
     FS_18,
     FS_24,
     FS_30,
@@ -122,7 +124,9 @@ u32 FontSizeToPx(FontSize font_size) {
     u32 sz_px = 0;
     switch (font_size) {
         case FS_10: sz_px = 10; break;
+        case FS_12: sz_px = 12; break;
         case FS_14: sz_px = 14; break;
+        case FS_16: sz_px = 16; break;
         case FS_18: sz_px = 18; break;
         case FS_24: sz_px = 24; break;
         case FS_30: sz_px = 30; break;
@@ -140,7 +144,9 @@ FontSize FontSizeFromPx(u32 sz_px) {
     FontSize fs = FS_18;
     switch (sz_px) {
         case 10 : fs = FS_10; break;
+        case 12 : fs = FS_12; break;
         case 14 : fs = FS_14; break;
+        case 16 : fs = FS_16; break;
         case 18 : fs = FS_18; break;
         case 24 : fs = FS_24; break;
         case 30 : fs = FS_30; break;
@@ -196,7 +202,9 @@ FontSize UI_GetFontSize() {
     s32 sz_px = g_current_font->sz_px;
     switch (sz_px) {
         case 10: return FS_10; break;
+        case 12: return FS_12; break;
         case 14: return FS_14; break;
+        case 16: return FS_16; break;
         case 18: return FS_18; break;
         case 24: return FS_24; break;
         case 30: return FS_30; break;
