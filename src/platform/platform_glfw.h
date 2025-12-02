@@ -298,10 +298,9 @@ void MouseButtonCallBack(GLFWwindow* window, int button, int action, int mods) {
         btn->t_pushed = ReadSystemTimerMySec();
         u64 t_since_last_mdown = btn->t_pushed - btn->t_pushed_prev;
 
-        if (btn->t_pushed_prev != 0 && (btn->t_pushed_prev < btn->t_pushed)) {
+        if (btn->t_pushed_prev != 0 && (btn->t_pushed_prev > btn->t_pushed)) {
             //  TODO: use steady_clock
             //  In the event of a time skip (this used to be an assert)
-
             btn->t_pushed_prev = btn->t_pushed;
             return;
         }
@@ -319,7 +318,13 @@ void MouseButtonCallBack(GLFWwindow* window, int button, int action, int mods) {
         // click @ mouse-up
         u64 t_released = ReadSystemTimerMySec();
         u64 t_since_last_mdown = t_released - btn->t_pushed;
-        assert(btn->t_pushed_prev == 0 || (btn->t_pushed_prev < btn->t_pushed));
+
+        if (btn->t_pushed_prev != 0 && (btn->t_pushed_prev > btn->t_pushed)) {
+            //  TODO: use steady_clock
+            //  In the event of a time skip (this used to be an assert)
+            btn->t_pushed_prev = btn->t_pushed;
+            return;
+        }
 
         if (btn->t_pushed && (t_since_last_mdown < T_CLICK_TIMEOUT_MYS)) {
             btn->clicked = true;

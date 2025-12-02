@@ -57,7 +57,7 @@ struct ResourceStreamHandle {
 
 
 // TODO: how do we put a bound on the number of resources in a file?
-#define MAX_RESOURCE_CNT 128
+#define MAX_RESOURCE_CNT 999
 
 
 ResourceStreamHandle ResourceStreamLoadAndOpen(MArena *a_tmp, MArena *a_dest, const char *filename, bool put_strs_inline = true) {
