@@ -7,7 +7,7 @@
 
 int main (int argc, char **argv) {
     TimeProgram;
-    BaselayerAssertVersion(0, 2, 5);
+    BaselayerAssertVersion(0, 2, 6);
 
     bool force_testing = false;
 
